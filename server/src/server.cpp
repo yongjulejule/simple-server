@@ -14,7 +14,10 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <fstream>
 #include <iostream>
+
+#define BUFFER_SIZE 2048
 
 bool isNumbers(std::string str) {
   return !str.empty() &&
@@ -67,7 +70,11 @@ int main(int argc, char **argv) {
     exit(EXIT_FAILURE);
   }
 
-  write(connectionFd, "Hello, Client!\n", 15);
+  std::string buffer;
+  while (std::getline(std::cin, buffer))
+    ;
+
+  write(connectionFd, buffer.c_str(), buffer.size());
   write(1, "Hello, Server!\n", 15);
 
   close(connectionFd);
